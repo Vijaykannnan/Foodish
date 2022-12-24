@@ -4,6 +4,7 @@ let enterIcon = document.querySelector(".enter-icon");
 enterIcon.addEventListener("click", function () {
   console.log("clicked");
   location.href = "./external page/order food.html";
+
 })
 
 
@@ -14,6 +15,7 @@ class addBgBlur {
   //for blur an bg when clk the login or sigin btn
   added() {
     [...mainEl].forEach(function (val) {
+      // console.log(val);
       val.classList.add("mainAdd");
       // console.log(val);
     })
@@ -107,7 +109,7 @@ const crtIcon = document.querySelector(".crt-icon i");
 
 
 function checker() {
-  const fullNameVal = formFullNamev.alue.trim();
+  const fullNameVal = formFullName.value.trim();
   const emailVal = formEmail.value.trim();
 
   if (fullNameVal === "") {
@@ -129,33 +131,8 @@ function checker() {
     setSuccess(formEmail);
   }
 
-
-
-  function setError(input, msg) {
-    const formcontrol = input;
-    console.log(formcontrol);
-    formcontrol.className = "form-control_error";
-    const small = formcontrol.parentElement.querySelector(".small");
-    small.innerText = msg;
-    formcontrol.parentElement.querySelector(".error-icon i").style = "display:block";
-    formcontrol.parentElement.querySelector(".crt-icon i").style = "display:none";
-
-  }
-
-  function setSuccess(input) {
-    const formcontrol = input;
-    console.log(formcontrol);
-    formcontrol.className = "form-control_success";
-    const small = formcontrol.parentElement.querySelector(".small");
-    small.innerText = "";
-    formcontrol.parentElement.querySelector(".crt-icon i").style = "display:block";
-    formcontrol.parentElement.querySelector(".error-icon i").style = "display:none";
-
-
-  }
-
-
 }
+
 
 ////for loginnnn---------------------------------------------------
 
@@ -189,32 +166,33 @@ function logged() {
     setSuccess(numEl);
   }
 
+}
 
 
-  function setError(input, msg) {
-    const nameControl = input;
-    nameControl.className = "form-control_error";
-    const small = nameControl.parentElement.querySelector(".small");
-    small.innerText = msg;
-    nameControl.parentElement.querySelector(".error-icon i").style = "display:block";
-    nameControl.parentElement.querySelector(".crt-icon i").style = "display:none";
+///for common code for login and sign up validation
+function setError(input, msg) {
+  const formcontrol = input;
+  console.log(formcontrol);
+  formcontrol.className = "form-control_error";
+  const small = formcontrol.parentElement.querySelector(".small");
+  small.innerText = msg;
+  formcontrol.parentElement.querySelector(".error-icon i").style = "display:block";
+  formcontrol.parentElement.querySelector(".crt-icon i").style = "display:none";
 
-  }
+}
 
-  function setSuccess(input) {
-    const formcontrol = input;
-    console.log(formcontrol);
-    formcontrol.className = "form-control_success";
-    const small = formcontrol.parentElement.querySelector(".small");
-    small.innerText = "";
-    formcontrol.parentElement.querySelector(".crt-icon i").style = "display:block";
-    formcontrol.parentElement.querySelector(".error-icon i").style = "display:none";
-
-
-  }
+function setSuccess(input) {
+  const formcontrol = input;
+  console.log(formcontrol);
+  formcontrol.className = "form-control_success";
+  const small = formcontrol.parentElement.querySelector(".small");
+  small.innerText = "";
+  formcontrol.parentElement.querySelector(".crt-icon i").style = "display:block";
+  formcontrol.parentElement.querySelector(".error-icon i").style = "display:none";
 
 
 }
+///--------end validation-----------------------------------
 
 
 
@@ -263,6 +241,8 @@ let suggestArrays = ["ariyalur", "chennai", "coimbatore", "cuddalore", "dharmapu
 // return alpha+words;
 // })
 // console.log(allAlphaArr);
+
+
 function inputSuggestChecking() {
 
   inputField.addEventListener("input", function (e) {
@@ -270,39 +250,45 @@ function inputSuggestChecking() {
 
     suggestArrays.map((val) => {
 
-      if (inputField.value.toLowerCase().includes(val.slice(0, 1))) {
-        console.log("in");
+
+      if (val.slice(0, 1).includes(inputField.value.toLowerCase())) {
+
+        // console.log(val);
 
         //when crtly matched ,inputsuggestion bg-color displayed
+
         inputSuggest.style = "display:block";
         let sugg = val.charAt(0).toUpperCase() + val.slice(1);
         createNewElementForSuggestion(sugg);
+
       }
     })
-    //when our input will backspaced one by one when it empty it will delete all input suggestion and remove input suggestion bg-color too
+
+    //when userfiels will empty delaet all children into the inputsuggst div
     if (inputField.value == "") {
-      console.log(inputSuggest.children);
+      // console.log("child", inputSuggest.children);
       [...inputSuggest.children].forEach((vals) => {
         vals.remove();
       })
       inputSuggest.style = "display:none";
     }
-    //when the user enter so many words the suggestion height will enlarged so reduce and put max height 200px when it reach above 4 words
-    if (inputSuggest.children.length > 4) {
-
-      console.log(inputSuggest.children.length);
-      inputSuggest.style.maxHeight = "200px";
-    }
-
   })
 }
 inputSuggestChecking();
 
+//when our input will backspaced one by one when it empty it will delete all input suggestion and remove input suggestion bg-color too
+
+inputField.addEventListener("input", function (e) {
+
+})
 
 
 inputSuggest.addEventListener("click", function (event) {
   console.dir(event.target.innerText);
-  inputField.value = event.target.innerText;
+  if (event.target.tagName == "P") {
+    inputField.value = event.target.innerText;
+  }
+
   console.log(event.target.tagName);
   if (event.target.tagName == "I") {
     console.log(event.target.closest("div"));
@@ -311,10 +297,10 @@ inputSuggest.addEventListener("click", function (event) {
 
     // to avoid inputSuggestion bg color
     console.log("hii", inputSuggest.children.length);
-    if ([...inputSuggest.children].length == 0) {
-      inputSuggest.style = "display:none";
-      console.log("clear");
-    }
+    // if ([...inputSuggest.children].length == 0) {
+    //   inputSuggest.style = "display:none";
+    //   console.log("clear");
+    // }
   }
 })
 
